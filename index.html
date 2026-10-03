@@ -38,6 +38,14 @@
   .calc{display:flex;gap:10px;flex-wrap:wrap;background:var(--card);padding:22px;border-radius:16px}
   .calc input,.calc select{flex:1;min-width:110px;padding:10px;border-radius:10px;border:1px solid var(--muted);background:var(--bg);color:var(--text);font-size:1rem}
   .calc #out{width:100%;color:var(--accent);font-weight:bold;font-size:1.2rem}
+  .todo{background:var(--card);padding:22px;border-radius:16px}
+  .todo .row{display:flex;gap:10px}
+  .todo input{flex:1;padding:10px;border-radius:10px;border:1px solid var(--muted);background:var(--bg);color:var(--text);font-size:1rem}
+  .todo ul{list-style:none;margin-top:14px}
+  .todo li{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--bg)}
+  .todo li span{cursor:pointer}
+  .todo li span.done{text-decoration:line-through;color:var(--muted)}
+  .todo li button{padding:4px 12px}
 </style>
 </head>
 <body>
@@ -47,6 +55,7 @@
     <a href="#about">About</a>
     <a href="#projects">Projects</a>
     <a href="#try">Try it</a>
+    <a href="#todo">To-Do</a>
     <a href="#contact">Contact</a>
     <button id="theme">Theme</button>
   </div>
@@ -105,6 +114,17 @@
   </div>
 </section>
 
+<section id="todo">
+  <h2>Try it: To-Do List</h2>
+  <div class="todo">
+    <div class="row">
+      <input id="task" type="text" placeholder="New task">
+      <button id="add">Add</button>
+    </div>
+    <ul id="list"></ul>
+  </div>
+</section>
+
 <section id="contact">
   <h2>Contact</h2>
   <div class="links">
@@ -131,6 +151,41 @@
     else r = a / b;
     out.textContent = "Result: " + r;
   };
+  (function () {
+    const KEY = "tasks";
+    let tasks = [];
+    try { tasks = JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { tasks = []; }
+    const list = document.getElementById("list");
+    const input = document.getElementById("task");
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(tasks)); } catch (e) {} }
+    function render() {
+      list.innerHTML = "";
+      tasks.forEach((t, i) => {
+        const li = document.createElement("li");
+        const span = document.createElement("span");
+        span.textContent = t.title;
+        if (t.done) span.className = "done";
+        span.onclick = () => { t.done = !t.done; save(); render(); };
+        const del = document.createElement("button");
+        del.textContent = "x";
+        del.onclick = () => { tasks.splice(i, 1); save(); render(); };
+        li.appendChild(span);
+        li.appendChild(del);
+        list.appendChild(li);
+      });
+    }
+    function add() {
+      const v = input.value.trim();
+      if (!v) return;
+      tasks.push({ title: v, done: false });
+      input.value = "";
+      save();
+      render();
+    }
+    document.getElementById("add").onclick = add;
+    input.onkeydown = (e) => { if (e.key === "Enter") add(); };
+    render();
+  })();
 </script>
 </body>
 </html>
