@@ -3,42 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My Site</title>
+<title>smsm darck</title>
 <style>
-  :root { --bg:#0b0f1a; --card:#151b2e; --text:#e8ecf8; --accent:#00e5a8; }
-  body.light { --bg:#f4f6fb; --card:#ffffff; --text:#1a2036; --accent:#0a7cff; }
+  :root { --bg:#0b0f1a; --card:#151b2e; --text:#e8ecf8; --accent:#00e5a8; --muted:#8b93ad; }
+  body.light { --bg:#f4f6fb; --card:#ffffff; --text:#1a2036; --accent:#0a7cff; --muted:#5b6480; }
   * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
   body { font-family:system-ui,sans-serif; background:var(--bg); color:var(--text); transition:.3s; }
-  header { text-align:center; padding:70px 20px 40px; }
+  nav { position:sticky; top:0; z-index:10; display:flex; justify-content:space-between; align-items:center; padding:12px 20px; background:var(--bg); border-bottom:1px solid var(--card); }
+  nav b { color:var(--accent); }
+  nav a { color:var(--text); text-decoration:none; margin-left:14px; opacity:.8; }
+  button { padding:8px 16px; border:0; border-radius:30px; background:var(--accent); color:#000; font-weight:bold; }
+  header { text-align:center; padding:70px 20px 30px; }
   h1 { font-size:2.4rem; }
   h1 span { color:var(--accent); }
-  .sub { opacity:.7; margin-top:10px; }
-  button { margin-top:20px; padding:12px 24px; border:0; border-radius:30px; background:var(--accent); color:#000; font-weight:bold; font-size:1rem; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; padding:20px; max-width:900px; margin:auto; }
-  .card { background:var(--card); padding:24px; border-radius:16px; transition:.3s; }
+  .sub { color:var(--muted); margin-top:10px; }
+  section { max-width:900px; margin:auto; padding:30px 20px; }
+  h2 { margin-bottom:20px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+  .card { background:var(--card); padding:22px; border-radius:16px; transition:.3s; }
   .card:hover { transform:translateY(-6px); }
   .card h3 { color:var(--accent); margin-bottom:8px; }
-  footer { text-align:center; padding:40px; opacity:.6; }
+  .card p { color:var(--muted); line-height:1.5; }
+  .tags { margin-top:14px; display:flex; flex-wrap:wrap; gap:6px; }
+  .tags span { font-size:.75rem; padding:4px 10px; border-radius:20px; border:1px solid var(--accent); color:var(--accent); }
+  .links { display:flex; gap:12px; flex-wrap:wrap; }
+  .links a { padding:12px 22px; border-radius:30px; background:var(--card); color:var(--text); text-decoration:none; }
+  footer { text-align:center; padding:40px; color:var(--muted); }
 </style>
 </head>
 <body>
+<nav>
+  <b>smsm darck</b>
+  <div>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+    <button id="theme">Theme</button>
+  </div>
+</nav>
+
 <header>
   <h1>Hi, I'm <span>smsm darck</span></h1>
   <p class="sub">Python developer building things from my phone</p>
-  <p class="sub" id="clock"></p>
-  <button id="theme">Toggle theme</button>
 </header>
-<section class="grid">
-  <div class="card"><h3>Python</h3><p>Scripts, tools and bots.</p></div>
-  <div class="card"><h3>Telegram Bots</h3><p>Automation that replies for me.</p></div>
-  <div class="card"><h3>Web</h3><p>Pages built with HTML, CSS and JS.</p></div>
+
+<section id="projects">
+  <h2>My Projects</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Weather App</h3>
+      <p>Shows live weather for any city with a colored table in the terminal.</p>
+      <div class="tags"><span>Python</span><span>API</span><span>rich</span></div>
+    </div>
+    <div class="card">
+      <h3>Telegram Bot</h3>
+      <p>Replies to commands like /time and /weather and echoes messages.</p>
+      <div class="tags"><span>Python</span><span>Telegram</span></div>
+    </div>
+    <div class="card">
+      <h3>To-Do Manager</h3>
+      <p>Add, finish and delete tasks, saved in a file so nothing is lost.</p>
+      <div class="tags"><span>Python</span><span>JSON</span></div>
+    </div>
+    <div class="card">
+      <h3>Calculator</h3>
+      <p>Simple calculator with functions and divide-by-zero protection.</p>
+      <div class="tags"><span>Python</span></div>
+    </div>
+  </div>
 </section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <div class="links">
+    <a href="https://github.com/01154685602ah-cmyk">GitHub</a>
+    <a href="https://t.me/YOUR_USERNAME">Telegram</a>
+  </div>
+</section>
+
 <footer>Built in Termux</footer>
+
 <script>
   document.getElementById("theme").onclick = () => document.body.classList.toggle("light");
-  setInterval(() => {
-    document.getElementById("clock").textContent = new Date().toLocaleTimeString();
-  }, 1000);
 </script>
 </body>
 </html>
