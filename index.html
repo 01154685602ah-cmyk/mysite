@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Site</title>
+<style>
+  :root { --bg:#0b0f1a; --card:#151b2e; --text:#e8ecf8; --accent:#00e5a8; }
+  body.light { --bg:#f4f6fb; --card:#ffffff; --text:#1a2036; --accent:#0a7cff; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:system-ui,sans-serif; background:var(--bg); color:var(--text); transition:.3s; }
+  header { text-align:center; padding:70px 20px 40px; }
+  h1 { font-size:2.4rem; }
+  h1 span { color:var(--accent); }
+  .sub { opacity:.7; margin-top:10px; }
+  button { margin-top:20px; padding:12px 24px; border:0; border-radius:30px; background:var(--accent); color:#000; font-weight:bold; font-size:1rem; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; padding:20px; max-width:900px; margin:auto; }
+  .card { background:var(--card); padding:24px; border-radius:16px; transition:.3s; }
+  .card:hover { transform:translateY(-6px); }
+  .card h3 { color:var(--accent); margin-bottom:8px; }
+  footer { text-align:center; padding:40px; opacity:.6; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Hi, I'm <span>smsm darck</span></h1>
+  <p class="sub">Python developer building things from my phone</p>
+  <p class="sub" id="clock"></p>
+  <button id="theme">Toggle theme</button>
+</header>
+<section class="grid">
+  <div class="card"><h3>Python</h3><p>Scripts, tools and bots.</p></div>
+  <div class="card"><h3>Telegram Bots</h3><p>Automation that replies for me.</p></div>
+  <div class="card"><h3>Web</h3><p>Pages built with HTML, CSS and JS.</p></div>
+</section>
+<footer>Built in Termux</footer>
+<script>
+  document.getElementById("theme").onclick = () => document.body.classList.toggle("light");
+  setInterval(() => {
+    document.getElementById("clock").textContent = new Date().toLocaleTimeString();
+  }, 1000);
+</script>
+</body>
+</html>
