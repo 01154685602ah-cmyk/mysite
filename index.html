@@ -46,6 +46,8 @@
   .todo li span{cursor:pointer}
   .todo li span.done{text-decoration:line-through;color:var(--muted)}
   .todo li button{padding:4px 12px}
+  #lang{background:var(--card);color:var(--accent);border:1px solid var(--accent);margin-inline:6px}
+  html[dir=rtl] nav a{margin-left:0;margin-right:14px}
 </style>
 <meta name="description" content="Portfolio of smsm darck: Python projects, a Telegram bot and live demos, all built from a phone.">
 <meta name="theme-color" content="#0b0f1a">
@@ -66,6 +68,7 @@
     <a href="#try">Try it</a>
     <a href="#todo">To-Do</a>
     <a href="#contact">Contact</a>
+    <button id="lang">عربي</button>
     <button id="theme">Theme</button>
   </div>
 </nav>
@@ -194,6 +197,78 @@
     document.getElementById("add").onclick = add;
     input.onkeydown = (e) => { if (e.key === "Enter") add(); };
     render();
+  })();
+  (function () {
+    const AR = {
+      "About": "نبذة", "Projects": "المشاريع", "Try it": "جرّب", "To-Do": "المهام",
+      "Contact": "تواصل", "Theme": "الثيم",
+      "Hi, I'm": "أهلاً، أنا",
+      "Python developer building things from my phone": "مطوّر بايثون يبني مشاريعه من هاتفه",
+      "About Me": "نبذة عنّي",
+      "I'm learning to code from my phone using Termux. I build small Python tools, a Telegram bot and simple websites.": "أتعلّم البرمجة من هاتفي باستخدام Termux. أبني أدوات بايثون صغيرة وبوت تيليجرام ومواقع بسيطة.",
+      "My Projects": "مشاريعي",
+      "Weather App": "تطبيق الطقس",
+      "Shows live weather for any city with a colored table in the terminal.": "يعرض الطقس الحالي لأي مدينة في جدول ملوّن داخل الطرفية.",
+      "Telegram Bot": "بوت تيليجرام",
+      "Replies to commands like /time and /weather and echoes messages.": "يرد على أوامر مثل time و weather ويعيد ترديد الرسائل.",
+      "To-Do Manager": "مدير المهام",
+      "Add, finish and delete tasks, saved in a file so nothing is lost.": "أضف المهام وأنهِها واحذفها، وتُحفظ في ملف فلا يضيع شيء.",
+      "Calculator": "الآلة الحاسبة",
+      "Simple calculator with functions and divide-by-zero protection.": "آلة حاسبة بسيطة بدوال وحماية من القسمة على صفر.",
+      "Code": "الكود",
+      "Try it: Calculator": "جرّب: الآلة الحاسبة",
+      "Calculate": "احسب",
+      "Result will appear here": "ستظهر النتيجة هنا",
+      "Please enter numbers only.": "أدخل أرقامًا فقط.",
+      "Cannot divide by zero": "لا يمكن القسمة على صفر",
+      "Try it: To-Do List": "جرّب: قائمة المهام",
+      "Add": "إضافة",
+      "Built in Termux": "بُني على Termux"
+    };
+    const PH = {
+      "First number": "الرقم الأول",
+      "Second number": "الرقم الثاني",
+      "New task": "مهمة جديدة"
+    };
+    const orig = new Map();
+    const btn = document.getElementById("lang");
+    function textNodes() {
+      const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      const list = [];
+      while (w.nextNode()) {
+        const n = w.currentNode;
+        if (!n.parentNode.closest("script,style")) list.push(n);
+      }
+      return list;
+    }
+    function apply(l) {
+      textNodes().forEach((n) => {
+        const t = n.nodeValue.trim();
+        if (!t) return;
+        if (l === "ar") {
+          if (AR[t]) {
+            if (!orig.has(n)) orig.set(n, n.nodeValue);
+            n.nodeValue = n.nodeValue.replace(t, AR[t]);
+          }
+        } else if (orig.has(n)) {
+          n.nodeValue = orig.get(n);
+          orig.delete(n);
+        }
+      });
+      document.querySelectorAll("[placeholder]").forEach((el) => {
+        if (!el.hasAttribute("data-ph")) el.setAttribute("data-ph", el.placeholder);
+        const o = el.getAttribute("data-ph");
+        el.placeholder = (l === "ar" && PH[o]) ? PH[o] : o;
+      });
+      document.documentElement.lang = l;
+      document.documentElement.dir = (l === "ar") ? "rtl" : "ltr";
+      btn.textContent = (l === "ar") ? "EN" : "عربي";
+      try { localStorage.setItem("lang", l); } catch (e) {}
+    }
+    let lang = "en";
+    try { lang = localStorage.getItem("lang") || "en"; } catch (e) {}
+    btn.onclick = () => { lang = (lang === "ar") ? "en" : "ar"; apply(lang); };
+    if (lang === "ar") apply("ar");
   })();
 </script>
 </body>
